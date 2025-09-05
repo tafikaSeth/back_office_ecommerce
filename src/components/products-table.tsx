@@ -26,9 +26,6 @@ interface StockStatus {
   readonly label: string
   readonly color: string
 }
-
-type StockLevel = "out-of-stock" | "low-stock" | "in-stock"
-
 interface ProductsTableProps {
   readonly initialProducts?: readonly Product[]
   readonly onProductChange?: (products: readonly Product[]) => void
