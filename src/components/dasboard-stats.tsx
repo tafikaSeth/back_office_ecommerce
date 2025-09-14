@@ -36,7 +36,7 @@ function StatCard({ title, value, change, changeType, icon }: StatCardProps) {
         <div className="flex items-center text-xs text-muted-foreground">
           {TrendIcon && <TrendIcon className={`mr-1 h-3 w-3 ${trendColor}`} aria-hidden="true" />}
           <span className={trendColor}>{change}</span>
-          <span className="ml-1">from last month</span>
+          <span className="ml-1">depuis le mois dernier</span>
         </div>
       </CardContent>
     </Card>

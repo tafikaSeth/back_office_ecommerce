@@ -1,12 +1,12 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import type { Category } from "./categories-table"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
-import { Textarea } from "./ui/textarea"
-import { Switch } from "./ui/switch"
-import { Button } from "./ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Label } from "../ui/label"
+import { Input } from "../ui/input"
+import { Textarea } from "../ui/textarea"
+import { Switch } from "../ui/switch"
+import { Button } from "../ui/button"
 
 interface CategoryModalProps {
   isOpen: boolean
@@ -58,16 +58,16 @@ export function CategoryModal({ isOpen, onClose, onSave, category }: CategoryMod
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{category ? "Edit Category" : "Add New Category"}</DialogTitle>
+          <DialogTitle>{category ? "Editer" : "Nouveau catégorie"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Category Name</Label>
+            <Label htmlFor="name">Nom</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
-              placeholder="Enter category name"
+              placeholder="Entrer le nom du catégorie"
               required
             />
           </div>
@@ -78,7 +78,7 @@ export function CategoryModal({ isOpen, onClose, onSave, category }: CategoryMod
               id="description"
               value={formData.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Enter category description"
+              placeholder="Entrer un description du catégorie"
               rows={3}
             />
           </div>
@@ -89,23 +89,23 @@ export function CategoryModal({ isOpen, onClose, onSave, category }: CategoryMod
               checked={formData.isActive}
               onCheckedChange={(checked) => handleInputChange("isActive", checked)}
             />
-            <Label htmlFor="active">Active category</Label>
+            <Label htmlFor="active">Activer</Label>
           </div>
 
           {category && (
             <div className="space-y-2">
-              <Label>Current Products</Label>
+              <Label>Produits actuels</Label>
               <div className="text-sm text-muted-foreground">
-                This category currently has {category.productCount} products assigned to it.
+                Cette catégorie compte actuellement {category.productCount} produits qui lui sont attribués.
               </div>
             </div>
           )}
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Annuler
             </Button>
-            <Button type="submit">{category ? "Update Category" : "Add Category"}</Button>
+            <Button type="submit">{category ? "Modifier" : "Ajouter"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

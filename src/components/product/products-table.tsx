@@ -1,13 +1,13 @@
 import type React from "react"
 import { useState, useCallback } from "react"
 import { Plus, Search, MoreHorizontal, Edit, Trash2, Star } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Badge } from "./ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Badge } from "../ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { ProductModal } from "./product-modal"
 
 export interface Product {
@@ -34,60 +34,61 @@ interface ProductsTableProps {
 const mockProducts: Product[] = [
   {
     id: "1",
-    title: "Wireless Headphones",
-    description: "High-quality wireless headphones with noise cancellation",
-    price: 199.99,
+    title: "Canapé en tissu",
+    description: "Canapé confortable 3 places avec housse lavable",
+    price: 799.99,
     rating: 4.5,
-    image: "/diverse-people-listening-headphones.png",
-    category: "Electronics",
-    stock: 25,
+    image: "/canape-tissu.png",
+    category: "Meubles",
+    stock: 12,
     isFavorite: true,
   },
   {
     id: "2",
-    title: "Smart Watch",
-    description: "Feature-rich smartwatch with health monitoring",
-    price: 299.99,
+    title: "Table à manger",
+    description: "Table en bois massif pouvant accueillir jusqu’à 6 personnes",
+    price: 499.99,
     rating: 4.2,
-    image: "/modern-smartwatch.png",
-    category: "Electronics",
-    stock: 15,
+    image: "/table-bois.png",
+    category: "Meubles",
+    stock: 8,
     isFavorite: false,
   },
   {
     id: "3",
-    title: "Laptop Stand",
-    description: "Adjustable aluminum laptop stand for better ergonomics",
-    price: 49.99,
+    title: "Chaise de salon",
+    description: "Chaise ergonomique avec coussin rembourré",
+    price: 89.99,
     rating: 4.8,
-    image: "/laptop-stand.png",
-    category: "Accessories",
-    stock: 50,
+    image: "/chaise-salon.png",
+    category: "Meubles",
+    stock: 40,
     isFavorite: true,
   },
   {
     id: "4",
-    title: "USB-C Cable",
-    description: "Fast charging USB-C cable with data transfer",
-    price: 19.99,
+    title: "Lampe de chevet",
+    description: "Lampe moderne avec variateur de luminosité",
+    price: 39.99,
     rating: 4.0,
-    image: "/usb-cable.png",
-    category: "Accessories",
-    stock: 100,
+    image: "/lampe-chevet.png",
+    category: "Décoration",
+    stock: 60,
     isFavorite: false,
   },
   {
     id: "5",
-    title: "Phone Case",
-    description: "Protective phone case with wireless charging support",
-    price: 29.99,
+    title: "Buffet en chêne",
+    description: "Buffet spacieux avec 3 tiroirs et 2 portes",
+    price: 649.99,
     rating: 4.3,
-    image: "/colorful-phone-case-display.png",
-    category: "Accessories",
-    stock: 75,
+    image: "/buffet-chene.png",
+    category: "Meubles",
+    stock: 5,
     isFavorite: false,
   },
-]
+];
+
 
 export function ProductsTable({
   initialProducts = mockProducts,
@@ -145,16 +146,16 @@ export function ProductsTable({
   const getStockStatus = useCallback((stock: number): StockStatus => {
     if (stock === 0)
       return {
-        label: "Out of Stock",
+        label: "En rupture de stock",
         color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
       } as const
     if (stock < 10)
       return {
-        label: "Low Stock",
+        label: "Stock faible",
         color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
       } as const
     return {
-      label: "In Stock",
+      label: "En stock",
       color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
     } as const
   }, [])

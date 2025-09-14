@@ -1,5 +1,5 @@
 import type React from "react"
-import { UsersTable } from "../components/users-table"
+import { UsersTable } from "../components/user/users-table"
 
 const Users: React.FC = () => {
   return (

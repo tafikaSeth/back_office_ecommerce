@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { Search, MoreHorizontal, Eye, UserCheck, UserX, ShoppingBag } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Input } from "./ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Button } from "./ui/button"
-import { Badge } from "./ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Input } from "../ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Button } from "../ui/button"
+import { Badge } from "../ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { UserDetailModal } from "./user-detail-modal"
 
-export type UserStatus = "active" | "banned"
+export type UserStatus = "active" | "bloqué"
 
 export interface UserOrder {
   id: string
@@ -38,8 +38,8 @@ export interface User {
 const mockUsers: User[] = [
   {
     id: "USR-001",
-    name: "John Doe",
-    email: "john@example.com",
+    name: "Seth",
+    email: "tafikaseth@gmail.com",
     phone: "+1 (555) 123-4567",
     address: "123 Main St, New York, NY 10001",
     registrationDate: "2024-01-15",
@@ -48,16 +48,16 @@ const mockUsers: User[] = [
     totalOrders: 5,
     totalSpent: 1299.95,
     orders: [
-      { id: "ORD-001", orderDate: "2024-03-15", totalAmount: 239.97, status: "delivered", itemCount: 2 },
-      { id: "ORD-015", orderDate: "2024-02-28", totalAmount: 199.99, status: "delivered", itemCount: 1 },
-      { id: "ORD-025", orderDate: "2024-02-10", totalAmount: 89.99, status: "delivered", itemCount: 1 },
+      { id: "ORD-001", orderDate: "2024-03-15", totalAmount: 239.97, status: "livré", itemCount: 2 },
+      { id: "ORD-015", orderDate: "2024-02-28", totalAmount: 199.99, status: "livré", itemCount: 1 },
+      { id: "ORD-025", orderDate: "2024-02-10", totalAmount: 89.99, status: "livré", itemCount: 1 },
     ],
     avatar: "/customer-avatar.png",
   },
   {
     id: "USR-002",
-    name: "Jane Smith",
-    email: "jane@example.com",
+    name: "Cynthia Ceth",
+    email: "ceth@gmail.com",
     phone: "+1 (555) 987-6543",
     address: "456 Oak Ave, Los Angeles, CA 90210",
     registrationDate: "2024-02-01",
@@ -66,8 +66,8 @@ const mockUsers: User[] = [
     totalOrders: 3,
     totalSpent: 849.97,
     orders: [
-      { id: "ORD-002", orderDate: "2024-03-20", totalAmount: 299.99, status: "shipped", itemCount: 1 },
-      { id: "ORD-018", orderDate: "2024-03-05", totalAmount: 149.99, status: "delivered", itemCount: 2 },
+      { id: "ORD-002", orderDate: "2024-03-20", totalAmount: 299.99, status: "expédié", itemCount: 1 },
+      { id: "ORD-018", orderDate: "2024-03-05", totalAmount: 149.99, status: "expédié", itemCount: 2 },
     ],
     avatar: "/customer-avatar.png",
   },
@@ -83,8 +83,8 @@ const mockUsers: User[] = [
     totalOrders: 2,
     totalSpent: 289.95,
     orders: [
-      { id: "ORD-003", orderDate: "2024-03-22", totalAmount: 139.96, status: "pending", itemCount: 4 },
-      { id: "ORD-020", orderDate: "2024-03-01", totalAmount: 149.99, status: "delivered", itemCount: 1 },
+      { id: "ORD-003", orderDate: "2024-03-22", totalAmount: 139.96, status: "en cours", itemCount: 4 },
+      { id: "ORD-020", orderDate: "2024-03-01", totalAmount: 149.99, status: "livré", itemCount: 1 },
     ],
     avatar: "/customer-avatar.png",
   },
@@ -96,12 +96,12 @@ const mockUsers: User[] = [
     address: "321 Elm St, Miami, FL 33101",
     registrationDate: "2024-01-20",
     lastLoginDate: "2024-03-18",
-    status: "banned",
+    status: "bloqué",
     totalOrders: 4,
     totalSpent: 699.96,
     orders: [
-      { id: "ORD-004", orderDate: "2024-03-18", totalAmount: 399.98, status: "cancelled", itemCount: 2 },
-      { id: "ORD-012", orderDate: "2024-02-20", totalAmount: 99.99, status: "delivered", itemCount: 1 },
+      { id: "ORD-004", orderDate: "2024-03-18", totalAmount: 399.98, status: "annulé", itemCount: 2 },
+      { id: "ORD-012", orderDate: "2024-02-20", totalAmount: 99.99, status: "livré", itemCount: 1 },
     ],
     avatar: "/customer-avatar.png",
   },
@@ -116,7 +116,7 @@ const mockUsers: User[] = [
     status: "active",
     totalOrders: 1,
     totalSpent: 49.99,
-    orders: [{ id: "ORD-030", orderDate: "2024-03-10", totalAmount: 49.99, status: "delivered", itemCount: 1 }],
+    orders: [{ id: "ORD-030", orderDate: "2024-03-10", totalAmount: 49.99, status: "livré", itemCount: 1 }],
     avatar: "/customer-avatar.png",
   },
 ]
@@ -147,7 +147,7 @@ export function UsersTable() {
   const handleToggleUserStatus = (userId: string) => {
     setUsers(
       users.map((user) =>
-        user.id === userId ? { ...user, status: user.status === "active" ? "banned" : "active" } : user,
+        user.id === userId ? { ...user, status: user.status === "active" ? "bloqué" : "active" } : user,
       ),
     )
   }
@@ -156,7 +156,7 @@ export function UsersTable() {
     switch (status) {
       case "active":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-      case "banned":
+      case "bloqué":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -183,9 +183,9 @@ export function UsersTable() {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="all">Tous les status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="banned">Banned</SelectItem>
+                <SelectItem value="bloqué">Bloqué</SelectItem>
               </SelectContent>
             </Select>
           </div>

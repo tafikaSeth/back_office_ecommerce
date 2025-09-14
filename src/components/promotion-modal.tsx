@@ -20,7 +20,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
   const [formData, setFormData] = useState<Partial<Promotion>>({
     title: "",
     description: "",
-    type: "discount_code",
+    type: "code_promo",
     discountType: "percentage",
     discountValue: 0,
     code: "",
@@ -39,7 +39,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
       setFormData({
         title: "",
         description: "",
-        type: "discount_code",
+        type: "code_promo",
         discountType: "percentage",
         discountValue: 0,
         code: "",
@@ -63,15 +63,15 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
         type: formData.type as PromotionType,
         discountType: formData.discountType as "percentage" | "fixed",
         discountValue: Number(formData.discountValue),
-        code: formData.type === "discount_code" ? formData.code : undefined,
+        code: formData.type === "code_promo" ? formData.code : undefined,
         startDate: formData.startDate,
         endDate: formData.endDate,
-        status: formData.status as "active" | "inactive" | "scheduled" | "expired",
+        status: formData.status as "active" | "inactive" | "programmé" | "expiré",
         usageCount: promotion?.usageCount || 0,
         usageLimit: formData.usageLimit ? Number(formData.usageLimit) : undefined,
         minOrderAmount: formData.minOrderAmount ? Number(formData.minOrderAmount) : undefined,
         image:
-          formData.type === "banner"
+          formData.type === "bannière"
             ? formData.image || `/placeholder.svg?height=200&width=400&query=${encodeURIComponent(formData.title)}`
             : undefined,
         createdDate: promotion?.createdDate || new Date().toISOString().split("T")[0],
@@ -87,30 +87,30 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{promotion ? "Edit Promotion" : "Add New Promotion"}</DialogTitle>
+          <DialogTitle>{promotion ? "Editer" : "Nouveau promotion"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Promotion Title</Label>
+              <Label htmlFor="title">Nom promotion</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange("title", e.target.value)}
-                placeholder="Enter promotion title"
+                placeholder="Entrer le nom du promotion"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="type">Promotion Type</Label>
+              <Label htmlFor="type">Type de promotion</Label>
               <Select value={formData.type} onValueChange={(value) => handleInputChange("type", value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="banner">Banner</SelectItem>
-                  <SelectItem value="discount_code">Discount Code</SelectItem>
-                  <SelectItem value="sale">Sale</SelectItem>
+                  <SelectItem value="bannière">Bannière</SelectItem>
+                  <SelectItem value="code_promo">Code promo</SelectItem>
+                  <SelectItem value="vente">vente</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -122,39 +122,39 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
               id="description"
               value={formData.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Enter promotion description"
+              placeholder="Description du promotion"
               rows={3}
             />
           </div>
 
-          {formData.type === "discount_code" && (
+          {formData.type === "code_promo" && (
             <div className="space-y-2">
-              <Label htmlFor="code">Discount Code</Label>
+              <Label htmlFor="code">Code promo</Label>
               <Input
                 id="code"
                 value={formData.code}
                 onChange={(e) => handleInputChange("code", e.target.value.toUpperCase())}
-                placeholder="Enter discount code (e.g., SAVE20)"
+                placeholder="Entrer code de promo (e.g., SAVE20)"
               />
             </div>
           )}
 
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="discountType">Discount Type</Label>
+              <Label htmlFor="discountType">Type de remise</Label>
               <Select value={formData.discountType} onValueChange={(value) => handleInputChange("discountType", value)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="percentage">Percentage (%)</SelectItem>
-                  <SelectItem value="fixed">Fixed Amount ($)</SelectItem>
+                  <SelectItem value="percentage">Pourcentage (%)</SelectItem>
+                  <SelectItem value="fixed">Montant fixe ($)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="discountValue">
-                Discount Value {formData.discountType === "percentage" ? "(%)" : "($)"}
+                Valeur de la remise {formData.discountType === "percentage" ? "(%)" : "($)"}
               </Label>
               <Input
                 id="discountValue"
@@ -169,7 +169,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="minOrderAmount">Min Order Amount ($)</Label>
+              <Label htmlFor="minOrderAmount">Montant min($)</Label>
               <Input
                 id="minOrderAmount"
                 type="number"
@@ -186,7 +186,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="startDate">Start Date</Label>
+              <Label htmlFor="startDate">Date de début</Label>
               <Input
                 id="startDate"
                 type="date"
@@ -196,7 +196,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="endDate">End Date</Label>
+              <Label htmlFor="endDate">Date de fin</Label>
               <Input
                 id="endDate"
                 type="date"
@@ -208,7 +208,7 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="usageLimit">Usage Limit</Label>
+            <Label htmlFor="usageLimit">Limite d'utilisation</Label>
             <Input
               id="usageLimit"
               type="number"
@@ -217,18 +217,18 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
               onChange={(e) =>
                 handleInputChange("usageLimit", e.target.value ? Number.parseInt(e.target.value) : "undefined")
               }
-              placeholder="Unlimited (leave empty)"
+              placeholder="Illimité"
             />
           </div>
 
-          {formData.type === "banner" && (
+          {formData.type === "bannière" && (
             <div className="space-y-2">
-              <Label htmlFor="image">Banner Image URL</Label>
+              <Label htmlFor="image">URL de l'image de la bannière</Label>
               <Input
                 id="image"
                 value={formData.image}
                 onChange={(e) => handleInputChange("image", e.target.value)}
-                placeholder="Enter banner image URL (optional)"
+                placeholder="Entrer URL de l'image de la bannière (optional)"
               />
             </div>
           )}
@@ -239,14 +239,14 @@ export function PromotionModal({ isOpen, onClose, onSave, promotion }: Promotion
               checked={formData.status === "active"}
               onCheckedChange={(checked) => handleInputChange("status", checked ? "active" : "inactive")}
             />
-            <Label htmlFor="active">Activate promotion immediately</Label>
+            <Label htmlFor="active">Activez la promotion immédiatement</Label>
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Annuler
             </Button>
-            <Button type="submit">{promotion ? "Update Promotion" : "Create Promotion"}</Button>
+            <Button type="submit">{promotion ? "Mise à jour Promotion" : "Créer une promotion"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

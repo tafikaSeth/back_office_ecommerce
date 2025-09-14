@@ -1,15 +1,15 @@
 import { useState } from "react"
 import { Search, MoreHorizontal, Eye, Package, Truck, CheckCircle, XCircle } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Input } from "./ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { Badge } from "./ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { Button } from "./ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Input } from "../ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Badge } from "../ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { Button } from "../ui/button"
 import { OrderDetailModal } from "./order-detail-modal"
 
-export type OrderStatus = "pending" | "shipped" | "delivered" | "cancelled"
+export type OrderStatus = "en cours" | "expédié" | "livré" | "annulé"
 
 export interface OrderItem {
   id: string
@@ -36,98 +36,99 @@ export interface Order {
 const mockOrders: Order[] = [
   {
     id: "ORD-001",
-    customerName: "John Doe",
-    customerEmail: "john@example.com",
+    customerName: "Seth Tafika",
+    customerEmail: "tafikaseth@gmail.com",
     customerPhone: "+1 (555) 123-4567",
     shippingAddress: "123 Main St, New York, NY 10001",
     items: [
       {
         id: "1",
-        productName: "Wireless Headphones",
+        productName: "Canapé en tissu",
         quantity: 1,
-        price: 199.99,
-        image: "/diverse-people-listening-headphones.png",
+        price: 799.99,
+        image: "/canape-tissu.png",
       },
       {
         id: "2",
-        productName: "USB-C Cable",
+        productName: "Lampe de chevet",
         quantity: 2,
-        price: 19.99,
-        image: "/usb-cable.png",
+        price: 39.99,
+        image: "/lampe-chevet.png",
       },
     ],
-    totalAmount: 239.97,
-    status: "delivered",
+    totalAmount: 879.97,
+    status: "livré",
     orderDate: "2024-03-15",
     shippedDate: "2024-03-16",
     deliveredDate: "2024-03-18",
   },
   {
     id: "ORD-002",
-    customerName: "Jane Smith",
-    customerEmail: "jane@example.com",
+    customerName: "Seth Tafika",
+    customerEmail: "tafikaseth@gmail.com",
     customerPhone: "+1 (555) 987-6543",
     shippingAddress: "456 Oak Ave, Los Angeles, CA 90210",
     items: [
       {
         id: "3",
-        productName: "Smart Watch",
+        productName: "Table à manger",
         quantity: 1,
-        price: 299.99,
-        image: "/modern-smartwatch.png",
+        price: 499.99,
+        image: "/table-bois.png",
       },
     ],
-    totalAmount: 299.99,
-    status: "shipped",
+    totalAmount: 499.99,
+    status: "expédié",
     orderDate: "2024-03-20",
     shippedDate: "2024-03-21",
   },
   {
     id: "ORD-003",
-    customerName: "Mike Johnson",
-    customerEmail: "mike@example.com",
+    customerName: "Seth Tafika",
+    customerEmail: "tafikaseth@gmail.com",
     customerPhone: "+1 (555) 456-7890",
     shippingAddress: "789 Pine St, Chicago, IL 60601",
     items: [
       {
         id: "4",
-        productName: "Laptop Stand",
+        productName: "Chaise de salon",
         quantity: 1,
-        price: 49.99,
-        image: "/laptop-stand.png",
+        price: 89.99,
+        image: "/chaise-salon.png",
       },
       {
         id: "5",
-        productName: "Phone Case",
-        quantity: 3,
-        price: 29.99,
-        image: "/colorful-phone-case-display.png",
+        productName: "Buffet en chêne",
+        quantity: 1,
+        price: 649.99,
+        image: "/buffet-chene.png",
       },
     ],
-    totalAmount: 139.96,
-    status: "pending",
+    totalAmount: 739.98,
+    status: "en cours",
     orderDate: "2024-03-22",
   },
   {
     id: "ORD-004",
-    customerName: "Sarah Wilson",
-    customerEmail: "sarah@example.com",
+    customerName: "Seth Tafika",
+    customerEmail: "tafikaseth@gmail.com",
     customerPhone: "+1 (555) 321-0987",
     shippingAddress: "321 Elm St, Miami, FL 33101",
     items: [
       {
         id: "1",
-        productName: "Wireless Headphones",
+        productName: "Tapis moderne",
         quantity: 2,
         price: 199.99,
-        image: "/diverse-people-listening-headphones.png",
+        image: "/tapis-moderne.png",
       },
     ],
     totalAmount: 399.98,
-    status: "cancelled",
+    status: "annulé",
     orderDate: "2024-03-18",
   },
-]
+];
+
 
 export function OrdersTable() {
   const [orders, setOrders] = useState<Order[]>(mockOrders)
@@ -159,10 +160,10 @@ export function OrdersTable() {
           const updatedOrder = { ...order, status: newStatus }
 
           // Update dates based on status
-          if (newStatus === "shipped" && !order.shippedDate) {
+          if (newStatus === "expédié" && !order.shippedDate) {
             updatedOrder.shippedDate = new Date().toISOString().split("T")[0]
           }
-          if (newStatus === "delivered" && !order.deliveredDate) {
+          if (newStatus === "livré" && !order.deliveredDate) {
             updatedOrder.deliveredDate = new Date().toISOString().split("T")[0]
             if (!order.shippedDate) {
               updatedOrder.shippedDate = new Date().toISOString().split("T")[0]
@@ -178,13 +179,13 @@ export function OrdersTable() {
 
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {
-      case "pending":
+      case "en cours":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-      case "shipped":
+      case "expédié":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-      case "delivered":
+      case "livré":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-      case "cancelled":
+      case "annulé":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -193,13 +194,13 @@ export function OrdersTable() {
 
   const getStatusIcon = (status: OrderStatus) => {
     switch (status) {
-      case "pending":
+      case "en cours":
         return <Package className="h-3 w-3" />
-      case "shipped":
+      case "expédié":
         return <Truck className="h-3 w-3" />
-      case "delivered":
+      case "livré":
         return <CheckCircle className="h-3 w-3" />
-      case "cancelled":
+      case "annulé":
         return <XCircle className="h-3 w-3" />
       default:
         return <Package className="h-3 w-3" />
@@ -217,7 +218,7 @@ export function OrdersTable() {
               <Input
                 placeholder="Recherche de commande..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e: any) => setSearchTerm(e.target.value)}
                 className="pl-10"
               />
             </div>
@@ -226,11 +227,11 @@ export function OrdersTable() {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="shipped">Shipped</SelectItem>
-                <SelectItem value="delivered">Delivered</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="all">Tous les status</SelectItem>
+                <SelectItem value="en cours">En cours</SelectItem>
+                <SelectItem value="expédié">Shipped</SelectItem>
+                <SelectItem value="livré">Delivered</SelectItem>
+                <SelectItem value="annulé">Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -289,21 +290,21 @@ export function OrdersTable() {
                           <Eye className="mr-2 h-4 w-4" />
                           Voir détail
                         </DropdownMenuItem>
-                        {order.status === "pending" && (
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(order.id, "shipped")}>
+                        {order.status === "en cours" && (
+                          <DropdownMenuItem onClick={() => handleUpdateStatus(order.id, "expédié")}>
                             <Truck className="mr-2 h-4 w-4" />
                             Marquer comme expédié
                           </DropdownMenuItem>
                         )}
-                        {order.status === "shipped" && (
-                          <DropdownMenuItem onClick={() => handleUpdateStatus(order.id, "delivered")}>
+                        {order.status === "expédié" && (
+                          <DropdownMenuItem onClick={() => handleUpdateStatus(order.id, "livré")}>
                             <CheckCircle className="mr-2 h-4 w-4" />
                             Marquer comme livré
                           </DropdownMenuItem>
                         )}
-                        {(order.status === "pending" || order.status === "shipped") && (
+                        {(order.status === "en cours" || order.status === "expédié") && (
                           <DropdownMenuItem
-                            onClick={() => handleUpdateStatus(order.id, "cancelled")}
+                            onClick={() => handleUpdateStatus(order.id, "annulé")}
                             className="text-destructive"
                           >
                             <XCircle className="mr-2 h-4 w-4" />

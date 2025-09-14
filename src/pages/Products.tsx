@@ -1,5 +1,5 @@
 import type React from "react"
-import { ProductsTable } from "../components/products-table"
+import { ProductsTable } from "../components/product/products-table"
 
 const Products: React.FC = () => {
   return (

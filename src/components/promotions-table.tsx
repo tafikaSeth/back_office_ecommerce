@@ -9,8 +9,8 @@ import { Badge } from "./ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { PromotionModal } from "./promotion-modal"
 
-export type PromotionType = "banner" | "discount_code" | "sale"
-export type PromotionStatus = "active" | "inactive" | "scheduled" | "expired"
+export type PromotionType = "bannière" | "code_promo" | "vente"
+export type PromotionStatus = "active" | "inactive" | "programmé" | "expiré"
 
 export interface Promotion {
   id: string
@@ -33,9 +33,9 @@ export interface Promotion {
 const mockPromotions: Promotion[] = [
   {
     id: "PROMO-001",
-    title: "Summer Sale 2024",
-    description: "Get 25% off on all electronics during our summer sale",
-    type: "banner",
+    title: "Soldes d'été 2024",
+    description: "Profitez de 25% de réduction sur tous les meubles pendant nos soldes d'été",
+    type: "bannière",
     discountType: "percentage",
     discountValue: 25,
     startDate: "2024-06-01",
@@ -43,17 +43,17 @@ const mockPromotions: Promotion[] = [
     status: "active",
     usageCount: 156,
     minOrderAmount: 50,
-    image: "/summer-sale-banner.png",
+    image: "/soldes-ete-meubles.png",
     createdDate: "2024-05-15",
   },
   {
     id: "PROMO-002",
-    title: "WELCOME10",
-    description: "Welcome discount for new customers",
-    type: "discount_code",
+    title: "BIENVENUE10",
+    description: "Réduction de bienvenue pour les nouveaux clients",
+    type: "code_promo",
     discountType: "percentage",
     discountValue: 10,
-    code: "WELCOME10",
+    code: "BIENVENUE10",
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     status: "active",
@@ -64,26 +64,26 @@ const mockPromotions: Promotion[] = [
   },
   {
     id: "PROMO-003",
-    title: "Flash Sale - Headphones",
-    description: "$50 off premium headphones for 24 hours only",
-    type: "sale",
+    title: "Vente Flash - Canapé",
+    description: "100 $ de réduction sur les canapés haut de gamme pendant 24h seulement",
+    type: "vente",
     discountType: "fixed",
-    discountValue: 50,
+    discountValue: 100,
     startDate: "2024-03-25",
     endDate: "2024-03-26",
-    status: "expired",
+    status: "expiré",
     usageCount: 23,
     usageLimit: 100,
     createdDate: "2024-03-24",
   },
   {
     id: "PROMO-004",
-    title: "SPRING2024",
-    description: "Spring collection discount code",
-    type: "discount_code",
+    title: "PRINTEMPS2024",
+    description: "Code promo sur la collection printemps : meubles et décoration",
+    type: "code_promo",
     discountType: "percentage",
     discountValue: 15,
-    code: "SPRING2024",
+    code: "PRINTEMPS2024",
     startDate: "2024-04-01",
     endDate: "2024-05-31",
     status: "inactive",
@@ -94,19 +94,20 @@ const mockPromotions: Promotion[] = [
   },
   {
     id: "PROMO-005",
-    title: "Black Friday Mega Sale",
-    description: "Biggest sale of the year - up to 60% off everything",
-    type: "banner",
+    title: "Black Friday Maison",
+    description: "La plus grande promo de l'année : jusqu'à -60% sur tout l'ameublement",
+    type: "bannière",
     discountType: "percentage",
     discountValue: 60,
     startDate: "2024-11-29",
     endDate: "2024-12-02",
-    status: "scheduled",
+    status: "programmé",
     usageCount: 0,
-    image: "/black-friday-banner.png",
+    image: "/black-friday-maison.png",
     createdDate: "2024-03-20",
   },
-]
+];
+
 
 export function PromotionsTable() {
   const [promotions, setPromotions] = useState<Promotion[]>(mockPromotions)
@@ -172,9 +173,9 @@ export function PromotionsTable() {
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
       case "inactive":
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
-      case "scheduled":
+      case "programmé":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-      case "expired":
+      case "expiré":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -183,11 +184,11 @@ export function PromotionsTable() {
 
   const getTypeIcon = (type: PromotionType) => {
     switch (type) {
-      case "banner":
+      case "bannière":
         return <ImageIcon className="h-4 w-4" />
-      case "discount_code":
+      case "code_promo":
         return <Tag className="h-4 w-4" />
-      case "sale":
+      case "vente":
         return <Percent className="h-4 w-4" />
       default:
         return <Tag className="h-4 w-4" />
@@ -202,14 +203,14 @@ export function PromotionsTable() {
             <CardTitle>Promotions</CardTitle>
             <Button onClick={handleAddPromotion} className="gap-2">
               <Plus className="h-4 w-4" />
-              Add Promotion
+              Nouveau promotion
             </Button>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="Search promotions..."
+                placeholder="Recherche de promotion..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -220,10 +221,10 @@ export function PromotionsTable() {
                 <SelectValue placeholder="Filter by type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="banner">Banner</SelectItem>
-                <SelectItem value="discount_code">Discount Code</SelectItem>
-                <SelectItem value="sale">Sale</SelectItem>
+                <SelectItem value="all">Tous les types</SelectItem>
+                <SelectItem value="bannière">Bannière</SelectItem>
+                <SelectItem value="code_promo">Code promo</SelectItem>
+                <SelectItem value="vente">Vente</SelectItem>
               </SelectContent>
             </Select>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -231,11 +232,11 @@ export function PromotionsTable() {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="all">Tous les status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="scheduled">Scheduled</SelectItem>
-                <SelectItem value="expired">Expired</SelectItem>
+                <SelectItem value="programmé">Programmé</SelectItem>
+                <SelectItem value="expiré">Expiré</SelectItem>
               </SelectContent>
             </Select>
           </div>

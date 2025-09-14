@@ -1,13 +1,13 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import type { Product } from "./products-table"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { Textarea } from "./ui/textarea"
-import { Switch } from "./ui/switch"
-import { Button } from "./ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Label } from "../ui/label"
+import { Input } from "../ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Textarea } from "../ui/textarea"
+import { Switch } from "../ui/switch"
+import { Button } from "../ui/button"
 
 interface ProductModalProps {
   isOpen: boolean
@@ -17,14 +17,15 @@ interface ProductModalProps {
 }
 
 const categories = [
-  "Electronics",
-  "Accessories",
-  "Clothing",
-  "Home & Garden",
-  "Sports & Outdoors",
-  "Books",
-  "Toys & Games",
-]
+  "Meubles",
+  "Décoration",
+  "Linge de maison",
+  "Cuisine & Art de la table",
+  "Éclairage",
+  "Rangement & Organisation",
+  "Jardin & Extérieur",
+];
+
 
 export function ProductModal({ isOpen, onClose, onSave, product }: ProductModalProps) {
   const [formData, setFormData] = useState<Partial<Product>>({
@@ -80,25 +81,25 @@ export function ProductModal({ isOpen, onClose, onSave, product }: ProductModalP
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{product ? "Edit Product" : "Add New Product"}</DialogTitle>
+          <DialogTitle>{product ? "Editer" : "Nouveau produit"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Product Title</Label>
+              <Label htmlFor="title">Nom du produit</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange("title", e.target.value)}
-                placeholder="Enter product title"
+                placeholder="Nom du produit"
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">Categorie</Label>
               <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder="Choisir catégorie" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((category) => (
@@ -117,14 +118,14 @@ export function ProductModal({ isOpen, onClose, onSave, product }: ProductModalP
               id="description"
               value={formData.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
-              placeholder="Enter product description"
+              placeholder="Description du produit"
               rows={3}
             />
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">Prix ($)</Label>
               <Input
                 id="price"
                 type="number"
@@ -148,7 +149,7 @@ export function ProductModal({ isOpen, onClose, onSave, product }: ProductModalP
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="rating">Rating</Label>
+              <Label htmlFor="rating">Évaluation</Label>
               <Input
                 id="rating"
                 type="number"
@@ -178,14 +179,14 @@ export function ProductModal({ isOpen, onClose, onSave, product }: ProductModalP
               checked={formData.isFavorite}
               onCheckedChange={(checked) => handleInputChange("isFavorite", checked)}
             />
-            <Label htmlFor="favorite">Mark as favorite product</Label>
+            <Label htmlFor="favorite">Marquer comme favorie</Label>
           </div>
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+              Annuler
             </Button>
-            <Button type="submit">{product ? "Update Product" : "Add Product"}</Button>
+            <Button type="submit">{product ? "Modifier" : "Ajouter"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

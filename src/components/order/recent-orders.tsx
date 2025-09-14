@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Badge } from "./ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Badge } from "../ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 
 interface Order {
   readonly id: string
@@ -10,7 +10,7 @@ interface Order {
     readonly avatar?: string
   }
   readonly amount: string
-  readonly status: "pending" | "shipped" | "delivered" | "cancelled"
+  readonly status: "en cours" | "expédié" | "livré" | "annulé"
   readonly date: string
 }
 
@@ -18,65 +18,66 @@ const recentOrders: readonly Order[] = [
   {
     id: "#12345",
     customer: {
-      name: "John Doe",
+      name: "Seth Tafika",
       email: "john@example.com",
       avatar: "/customer-avatar.png",
     },
     amount: "$299.99",
-    status: "delivered",
-    date: "2 hours ago",
+    status: "livré",
+    date: "il y a 2 heures",
   },
   {
     id: "#12346",
     customer: {
-      name: "Jane Smith",
+      name: "Seth Tafika",
       email: "jane@example.com",
     },
     amount: "$149.50",
-    status: "shipped",
-    date: "4 hours ago",
+    status: "expédié",
+    date: "il y a 4 heures",
   },
   {
     id: "#12347",
     customer: {
-      name: "Bob Johnson",
+      name: "Seth Tafika",
       email: "bob@example.com",
     },
     amount: "$89.99",
-    status: "pending",
-    date: "6 hours ago",
+    status: "en cours",
+    date: "il y a 6 heures",
   },
   {
     id: "#12348",
     customer: {
-      name: "Alice Brown",
+      name: "Seth Tafika",
       email: "alice@example.com",
     },
     amount: "$199.99",
-    status: "delivered",
-    date: "8 hours ago",
+    status: "livré",
+    date: "il y a 8 heures",
   },
   {
     id: "#12349",
     customer: {
-      name: "Charlie Wilson",
+      name: "Seth Tafika",
       email: "charlie@example.com",
     },
     amount: "$79.99",
-    status: "cancelled",
-    date: "1 day ago",
+    status: "annulé",
+    date: "il y a 1 jour",
   },
-] as const
+] as const;
+
 
 function getStatusColor(status: Order["status"]): string {
   switch (status) {
-    case "delivered":
+    case "livré":
       return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-    case "shipped":
+    case "expédié":
       return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-    case "pending":
+    case "en cours":
       return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-    case "cancelled":
+    case "annulé":
       return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
     default:
       return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"

@@ -1,8 +1,8 @@
 import type React from "react"
 import { DashboardStats } from "../components/dasboard-stats"
 import { SalesChart } from "../components/sales-chart"
-import { TopProducts } from "../components/top-products"
-import { RecentOrders } from "../components/recent-orders"
+import { TopProducts } from "../components/product/top-products"
+import { RecentOrders } from "../components/order/recent-orders"
 
 const Dashboard: React.FC = () => {
   return (

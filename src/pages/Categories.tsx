@@ -1,5 +1,5 @@
 import type React from "react"
-import { CategoriesTable } from "../components/categories-table"
+import { CategoriesTable } from "../components/categories/categories-table"
 
 const Categories: React.FC = () => {
   return (

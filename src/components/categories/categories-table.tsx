@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { Plus, Search, MoreHorizontal, Edit, Trash2, FolderTree } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { Badge } from "./ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { CategoryModal } from "./categories/category-modal"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Button } from "../ui/button"
+import { Input } from "../ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Badge } from "../ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { CategoryModal } from "./category-modal"
 
 export interface Category {
   id: string
@@ -22,53 +22,54 @@ export interface Category {
 const mockCategories: Category[] = [
   {
     id: "1",
-    name: "Electronics",
-    description: "Electronic devices and gadgets including phones, laptops, and accessories",
+    name: "Meubles",
+    description: "Mobilier pour la maison : canapés, chaises, tables et armoires",
     productCount: 45,
     isActive: true,
     createdAt: "2024-01-15",
   },
   {
     id: "2",
-    name: "Accessories",
-    description: "Various accessories for electronic devices and daily use items",
+    name: "Décoration",
+    description: "Articles décoratifs : miroirs, cadres, vases et tapis",
     productCount: 32,
     isActive: true,
     createdAt: "2024-01-20",
   },
   {
     id: "3",
-    name: "Clothing",
-    description: "Fashion and apparel for men, women, and children",
+    name: "Linge de maison",
+    description: "Draps, housses, rideaux, nappes et serviettes",
     productCount: 28,
     isActive: true,
     createdAt: "2024-02-01",
   },
   {
     id: "4",
-    name: "Home & Garden",
-    description: "Home improvement, furniture, and gardening supplies",
+    name: "Cuisine & Art de la table",
+    description: "Ustensiles de cuisine, vaisselle et accessoires de table",
     productCount: 15,
     isActive: true,
     createdAt: "2024-02-10",
   },
   {
     id: "5",
-    name: "Sports & Outdoors",
-    description: "Sports equipment, outdoor gear, and fitness accessories",
+    name: "Éclairage",
+    description: "Lampes de chevet, suspensions, appliques et luminaires",
     productCount: 22,
     isActive: true,
     createdAt: "2024-02-15",
   },
   {
     id: "6",
-    name: "Books",
-    description: "Physical and digital books across various genres",
+    name: "Jardin & Extérieur",
+    description: "Mobilier de jardin, outils et accessoires pour l’extérieur",
     productCount: 8,
     isActive: false,
     createdAt: "2024-03-01",
   },
-]
+];
+
 
 export function CategoriesTable() {
   const [categories, setCategories] = useState<Category[]>(mockCategories)
@@ -166,7 +167,7 @@ export function CategoriesTable() {
                   </TableCell>
                   <TableCell>
                     <Badge variant="secondary" className="font-medium">
-                      {category.productCount} products
+                      {category.productCount} produits
                     </Badge>
                   </TableCell>
                   <TableCell>

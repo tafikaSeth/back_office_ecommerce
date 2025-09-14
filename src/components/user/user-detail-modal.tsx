@@ -1,11 +1,11 @@
 import { UserIcon, Mail, Phone, MapPin, Calendar, ShoppingBag, UserCheck, UserX } from "lucide-react"
 import type { User } from "./users-table"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Badge } from "./ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
-import { Button } from "./ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Badge } from "../ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table"
+import { Button } from "../ui/button"
 
 interface UserDetailModalProps {
   isOpen: boolean
@@ -21,7 +21,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
     switch (status) {
       case "active":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-      case "banned":
+      case "bloqué":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -30,13 +30,13 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
 
   const getOrderStatusColor = (status: string) => {
     switch (status) {
-      case "pending":
+      case "en cours":
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-      case "shipped":
+      case "expédié":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-      case "delivered":
+      case "livré":
         return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-      case "cancelled":
+      case "annulé":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
@@ -48,7 +48,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
       <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            <span>User Details - {user.name}</span>
+            <span>Detail de l'utilisateur - {user.name}</span>
             <Badge variant="secondary" className={getStatusColor(user.status)}>
               {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
             </Badge>
@@ -61,7 +61,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <UserIcon className="h-5 w-5" />
-                User Information
+                Information de l'utilisateur
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -101,35 +101,35 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
           {/* Account Statistics */}
           <Card>
             <CardHeader>
-              <CardTitle>Account Statistics</CardTitle>
+              <CardTitle>Statistiques du compte</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Registration Date</p>
+                    <p className="text-sm text-muted-foreground">Date d'inscription</p>
                     <p className="font-medium">{new Date(user.registrationDate).toLocaleDateString()}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Last Login</p>
+                    <p className="text-sm text-muted-foreground">Dernière connexion</p>
                     <p className="font-medium">{new Date(user.lastLoginDate).toLocaleDateString()}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Total Orders</p>
+                    <p className="text-sm text-muted-foreground">Total des commandes</p>
                     <p className="font-medium">{user.totalOrders}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Total Spent</p>
+                    <p className="text-sm text-muted-foreground">Total dépensé</p>
                     <p className="font-medium">${user.totalSpent.toFixed(2)}</p>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
           {/* Order History */}
           <Card>
             <CardHeader>
-              <CardTitle>Order History</CardTitle>
+              <CardTitle>Historique des commandes</CardTitle>
             </CardHeader>
             <CardContent>
               {user.orders.length > 0 ? (
@@ -150,7 +150,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
                       <TableHead>Order ID</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead>Items</TableHead>
-                      <TableHead>Amount</TableHead>
+                      <TableHead>Montant</TableHead>
                       <TableHead>Status</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -171,7 +171,7 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
                   </TableBody>
                 </Table>
               ) : (
-                <p className="text-center text-muted-foreground py-4">No orders found for this user.</p>
+                <p className="text-center text-muted-foreground py-4">Aucune commande trouvée pour cet utilisateur.</p>
               )}
             </CardContent>
           </Card>
@@ -186,12 +186,12 @@ export function UserDetailModal({ isOpen, onClose, user, onToggleStatus }: UserD
               {user.status === "active" ? (
                 <>
                   <UserX className="h-4 w-4" />
-                  Ban User
+                  Bloqué
                 </>
               ) : (
                 <>
                   <UserCheck className="h-4 w-4" />
-                  Unban User
+                  Débloqué
                 </>
               )}
             </Button>

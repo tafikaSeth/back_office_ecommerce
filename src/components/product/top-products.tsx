@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Progress } from "./ui/progress"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Progress } from "../ui/progress"
 
 
 interface Product {
@@ -11,36 +11,36 @@ interface Product {
 
 const topProducts: readonly Product[] = [
   {
-    name: "Wireless Headphones",
+    name: "Chaise en bois",
     sales: 1234,
     maxSales: 1500,
-    revenue: "$24,680",
+    revenue: "24 680 $",
   },
   {
-    name: "Smart Watch",
+    name: "Canapé 3 places",
     sales: 987,
     maxSales: 1500,
-    revenue: "$19,740",
+    revenue: "19 740 $",
   },
   {
-    name: "Laptop Stand",
+    name: "Table à manger",
     sales: 756,
     maxSales: 1500,
-    revenue: "$15,120",
+    revenue: "15 120 $",
   },
   {
-    name: "USB-C Cable",
+    name: "Lampe de chevet",
     sales: 543,
     maxSales: 1500,
-    revenue: "$10,860",
+    revenue: "10 860 $",
   },
   {
-    name: "Phone Case",
+    name: "Buffet en chêne",
     sales: 432,
     maxSales: 1500,
-    revenue: "$8,640",
+    revenue: "8 640 $",
   },
-] as const
+] as const;
 
 export function TopProducts() {
   return (

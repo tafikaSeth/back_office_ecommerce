@@ -5,9 +5,9 @@ const Promotions: React.FC = () => {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Promotion Management</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Gestion des promotions</h1>
         <p className="text-muted-foreground">
-          Create and manage promotional campaigns, discount codes, and marketing banners.
+          Créez et gérez des campagnes promotionnelles, des codes de réduction et des bannières marketing.
         </p>
       </div>
       <PromotionsTable />
